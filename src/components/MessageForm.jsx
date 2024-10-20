@@ -1,33 +1,34 @@
-import axios from "axios";
-import React, { useState } from "react";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+import { Base_API } from '../BACKEND_API/Base_API';
 
 const MessageForm = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [message, setMessage] = useState("");
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [message, setMessage] = useState('');
 
   const handleMessage = async (e) => {
     e.preventDefault();
     try {
       await axios
         .post(
-          "http://localhost:4000/api/v1/message/send",
+          `${Base_API.url}/api/v1/message/send`,
           { firstName, lastName, email, phone, message },
           {
             withCredentials: true,
-            headers: { "Content-Type": "application/json" },
+            headers: { 'Content-Type': 'application/json' },
           }
         )
         .then((res) => {
           toast.success(res.data.message);
-          setFirstName("");
-          setLastName("");
-          setEmail("");
-          setPhone("");
-          setMessage("");
+          setFirstName('');
+          setLastName('');
+          setEmail('');
+          setPhone('');
+          setMessage('');
         });
     } catch (error) {
       toast.error(error.response.data.message);
@@ -73,7 +74,7 @@ const MessageForm = () => {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
           />
-          <div style={{ justifyContent: "center", alignItems: "center" }}>
+          <div style={{ justifyContent: 'center', alignItems: 'center' }}>
             <button type="submit">Send</button>
           </div>
         </form>
